@@ -164,15 +164,15 @@
 {#if game === 'game over'}
     <div class="results" in:blur|local>
         <div class="result">
-            <p class="title">WPM</p>
+            <p class="title">Words / Minute (wpm)</p>
             <p class="score">{Math.trunc($wpm)}</p>
         </div>
         <div class="result">
-            <p class="title">LPS</p>
+            <p class="title">Characters / Second (cps)</p>
             <p class="score">{Math.trunc($lps)}</p>
         </div>
         <div class="result">
-            <p class="title">accuracy</p>
+            <p class="title">Accuracy</p>
             <p class="score">{Math.trunc($accuracy)}%</p>
         </div>
         <button class="play" on:click={resetGame}>Play Again</button>
@@ -382,14 +382,15 @@
     .results {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
+      gap: 1.5em;
+
       .result {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 1em;
       }
       .title {
         font-size: 2rem;
