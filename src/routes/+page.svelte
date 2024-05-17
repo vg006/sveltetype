@@ -122,8 +122,8 @@
         if(isNotFirstLetter || isOneLetterWord) {
             wordIndex += 1
             letterIndex = 0
-            moveCaret()
         }
+            moveCaret()
     }
     function updateLine() {
         const wordElement = wordsElement.children[wordIndex]
@@ -415,10 +415,10 @@
         max-height: calc(var(--line-height) * var(--lines) * 1.42);
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        //justify-content: center;
         gap: 0.6em;
         position: relative;
-        font-size: 1.5rem;
+        font-size: 1.5em;
         line-height: var(--line-height);
         overflow: hidden;
         user-select: none;
