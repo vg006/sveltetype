@@ -211,6 +211,9 @@
                     />
                 </div>
             </div>
+            {#if seconds !== 0 && wordCount !== 0}
+                <p class="title">Tap on the text to start typing</p>
+            {/if}
         {:else}
             <div class="timer" in:fade>
                 {seconds}
