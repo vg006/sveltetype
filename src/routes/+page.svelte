@@ -66,15 +66,19 @@
     }
     function setGameTimer() {
         function gameTimer() {
-            if(seconds > 0) {
-                seconds -= 1
-            }
-            if(game === 'waiting for input' || seconds === 0) {
+            if(game !== "game over") {
+                if(seconds > 0) {
+                    seconds -= 1
+                }
+                if(game === 'waiting for input' || seconds === 0) {
+                    clearInterval(interval)
+                }
+                if(seconds === 0) {
+                    setGameState('game over')
+                    getResults()
+                }
+            } else {
                 clearInterval(interval)
-            }
-            if(seconds === 0) {
-                setGameState('game over')
-                getResults()
             }
         }
         const interval = setInterval(gameTimer, 1000)
@@ -86,6 +90,7 @@
         if(wordIndex === words.length - 1 && letterIndex === words[wordIndex].length - 1) {
             setGameState('game over')
             getResults()
+            return
         }
         setLetter()
         checkLetter()
@@ -122,8 +127,8 @@
         if(isNotFirstLetter || isOneLetterWord) {
             wordIndex += 1
             letterIndex = 0
-        }
             moveCaret()
+        }
     }
     function updateLine() {
         const wordElement = wordsElement.children[wordIndex]
