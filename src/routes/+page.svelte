@@ -1,14 +1,14 @@
 <script lang="ts">
     import {tweened} from "svelte/motion";
-    import {blur} from "svelte/transition";
+    import {blur, fade, fly} from "svelte/transition";
     import {onMount} from "svelte";
     import english from '../api/words/languages/english.json'
 
-    type Game = 'in progress' | 'waiting for input' | 'game over'
+    type Game = 'in progress' | 'waiting for input' | 'game over' | 'yet to start'
     type Word = string
 
 
-    let game: Game = 'waiting for input'
+    let game: Game = 'yet to start'
     let typedLetter = ''
     let wordIndex = 0
     let letterIndex = 0
@@ -177,12 +177,23 @@
         </div>
         <button class="play" on:click={resetGame}>Play Again</button>
     </div>
+{:else if game === 'yet to start'}
+    <div class="main" in:fly={{delay:1000}}>
+        <h1 class="title">Sveltetype</h1>
+        <p class="title">The place where you can play with the letters</p>
+        <div id="playbtn" on:click={() => setGameState('waiting for input')}>
+            <button class="reset">
+                Play
+            </button>
+            <img width="32" height="32" src="https://img.icons8.com/windows/32/keyboard.png" alt="keyboard"/>
+        </div>
+    </div>
 {:else}
     <div class="game" data-game={game}>
         {#if game==='waiting for input'}
-            <div class="menubar">
+            <div class="menubar" in:blur={{delay:100, duration: 500}}>
                 <div class="form__group">
-                    <label class="form__label">Time</label>
+                    <label class="form__label">Time (seconds)</label>
                     <input
                             class="form__field"
                             type="number"
@@ -201,7 +212,7 @@
                 </div>
             </div>
         {:else}
-            <div class="timer">
+            <div class="timer" in:fade>
                 {seconds}
             </div>
         {/if}
@@ -231,7 +242,7 @@
         {/key}
 
         <div class="reset">
-            <button on:click={resetGame}>Reset</button>
+            <button on:click={resetGame}>Refresh</button>
         </div>
     </div>
 {/if}
@@ -242,6 +253,21 @@
       input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+
+        #playbtn {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
       }
     .game {
       display: flex;
@@ -260,6 +286,9 @@
         $gray: #9b9b9b;
 
         .form__group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           position: relative;
           padding: 15px 0 0;
           margin-top: 10px;
@@ -267,6 +296,7 @@
 
         .form__field {
           font-family: inherit;
+          text-align: center;
           width: 100%;
           border: 0;
           //border-bottom: 2px solid $gray;
